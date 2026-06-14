@@ -136,7 +136,7 @@ npm run dev
 
 ## 🌐 Live Demo
 
-Frontend: [smart-meal-planner-two.vercel.app](https://smart-meal-planner-two.vercel.app/login)
+Frontend: [smart-meal-planner-two.vercel.app](https://smart-meal-planner-two.vercel.app/)
 
 Backend API: https://smart-meal-planner-production-25be.up.railway.app/
 
