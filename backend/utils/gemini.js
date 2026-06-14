@@ -20,6 +20,19 @@ export const generateRecipe= async ({ingredients,
             const prompt = `Generate a detailed recipe with the following requirements:
 
 Ingredients available: ${ingredients.join(', ')}
+IMPORTANT RULES:
+
+1. Only generate recipes that make culinary sense.
+2. Do NOT combine ingredients that are traditionally incompatible.
+3. If the provided ingredients cannot form a realistic dish together, select only the relevant ingredients and ignore the unsuitable ones.
+4. Never force every ingredient into the recipe.
+5. Prioritize taste, practicality and real-world cooking standards.
+6. Generate recipes that a home cook would realistically prepare.
+7. The recipe name should be a known dish or a dish with a believable name.
+8. Avoid bizarre, experimental, novelty or AI-invented combinations.
+9. If ingredients belong to completely different categories (e.g. Sprite, Biscoff, Chicken), choose the subset that creates the most sensible recipe.
+10. Return only recipes that you would expect to find in a cookbook, restaurant menu, food blog or cooking website.
+  You may use common pantry staples such as: salt, pepper, oil, butter, garlic, onion, water,basic herbs and common seasonings even if they are not listed. 
 ${dietaryInfo}
 Cuisine type: ${cuisineType}
 Servings: ${servings}
@@ -58,7 +71,8 @@ Please provide a complete recipe in the following JSON format (return ONLY valid
   },
   "cookingTips": ["Tip 1", "Tip 2"]
     }
-  Make sure the recipe is creative, delicious, and uses the provided ingredients effectively. Also try to ensure that the 'Recipe name' is known to users i.e. it is common or easy to understand `;
+  Make sure the recipe is creative, delicious, and uses the provided ingredients effectively.
+  Also try to ensure that the 'Recipe name' is known to users i.e. it is common or easy to understand `;
 
   try{
     const response= await ai.models.generateContent({

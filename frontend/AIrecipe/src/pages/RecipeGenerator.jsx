@@ -109,7 +109,7 @@ const RecipeGenerator = () => {
 
         toast.success('Recipe generated successfully!');
         } catch (error) {
-        toast.error(error.response?.data?.message ||'Failed to generate recipe');
+        toast.error('Spike in demand! Try again later.');
         } finally {setGenerating(false);}
     };
 
