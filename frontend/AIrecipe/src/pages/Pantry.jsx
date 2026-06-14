@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import { format } from 'date-fns';
 import api from '../services/api.js'
 
-const CATEGORIES = ['Vegetables', 'Fruits', 'Dairy', 'Meat', 'Grains', 'Spices', 'Other'];
+const CATEGORIES = ['Vegetables', 'Fruits', 'Dairy', 'Meat', 'Beverages', 'Pantry', 'Grains', 'Spices', 'Other'];
 
 const Pantry = () => {
     const [items, setItems] = useState([]);
@@ -324,6 +324,7 @@ const AddItemModal = ({ onClose, onSuccess }) => {
                                 <option value="pieces">Pieces</option>
                                 <option value="kg">Kilograms</option>
                                 <option value="g">Grams</option>
+                                <option value="p">Pack</option>
                                 <option value="l">Liters</option>
                                 <option value="ml">Milliliters</option>
                                 <option value="cups">Cups</option>

@@ -4,17 +4,81 @@ import Navbar from '../components/Navbar';
 import toast from 'react-hot-toast';
 import api from '../services/api.js'
 
-const CATEGORIES = ['Produce', 'Dairy', 'Meat', 'Grains', 'Spices', 'Beverages', 'Other'];
+const CATEGORIES = ['Vegetables', 'Fruits', 'Dairy', 'Meat', 'Beverages', 'Pantry', 'Grains', 'Spices', 'Other'];
+const commonItems = [
+  // Dairy
+  { ingredient_name: "Milk", quantity: 1, unit: "l", category: "Dairy" },
+  { ingredient_name: "Paneer", quantity: 250, unit: "g", category: "Dairy" },
+  { ingredient_name: "Cheese", quantity: 200, unit: "g", category: "Dairy" },
+  { ingredient_name: "Butter", quantity: 100, unit: "g", category: "Dairy" },
+  { ingredient_name: "Curd", quantity: 500, unit: "g", category: "Dairy" },
+  { ingredient_name: "Eggs", quantity: 12, unit: "pieces", category: "Dairy" },
+
+  // Vegetables
+  { ingredient_name: "Onion", quantity: 1, unit: "kg", category: "Vegetables" },
+  { ingredient_name: "Tomato", quantity: 1, unit: "kg", category: "Vegetables" },
+  { ingredient_name: "Potato", quantity: 1, unit: "kg", category: "Vegetables" },
+  { ingredient_name: "Garlic", quantity: 250, unit: "g", category: "Vegetables" },
+  { ingredient_name: "Ginger", quantity: 250, unit: "g", category: "Vegetables" },
+
+  // Fruits
+  { ingredient_name: "Apple", quantity: 1, unit: "kg", category: "Fruits" },
+  { ingredient_name: "Banana", quantity: 12, unit: "pieces", category: "Fruits" },
+  { ingredient_name: "Orange", quantity: 1, unit: "kg", category: "Fruits" },
+
+  // Meat
+  { ingredient_name: "Chicken", quantity: 1, unit: "kg", category: "Meat" },
+  { ingredient_name: "Fish", quantity: 500, unit: "g", category: "Meat" },
+
+  // Beverages
+  { ingredient_name: "Tea", quantity: 250, unit: "g", category: "Beverages" },
+  { ingredient_name: "Coffee", quantity: 200, unit: "g", category: "Beverages" },
+
+  // Pantry
+  { ingredient_name: "Sugar", quantity: 1, unit: "kg", category: "Pantry" },
+  { ingredient_name: "Salt", quantity: 1, unit: "kg", category: "Pantry" },
+  { ingredient_name: "Cooking Oil", quantity: 1, unit: "l", category: "Pantry" },
+
+  // Grains
+  { ingredient_name: "Rice", quantity: 1, unit: "kg", category: "Grains" },
+  { ingredient_name: "Wheat Flour", quantity: 5, unit: "kg", category: "Grains" },
+  { ingredient_name: "Bread", quantity: 1, unit: "p", category: "Grains" },
+
+  // Spices
+  { ingredient_name: "Turmeric Powder", quantity: 100, unit: "g", category: "Spices" },
+  { ingredient_name: "Red Chilli Powder", quantity: 100, unit: "g", category: "Spices" },
+  { ingredient_name: "Garam Masala", quantity: 100, unit: "g", category: "Spices" },
+  { ingredient_name: "Black Pepper", quantity: 100, unit: "g", category: "Spices" }
+];
 
 const ShoppingList = () => {
     const [items, setItems] = useState([]);
     const [groupedItems, setGroupedItems] = useState({});
     const [showAddModal, setShowAddModal] = useState(false);
+    const [showQuickAddDropdown, setShowQuickAddDropdown] = useState(false);
     const [loading, setLoading]= useState(true);
 
     useEffect(() => {
         fetchShoppingList();
     }, []);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            const dropdown = document.getElementById('quick-add-dropdown');
+            const button = document.getElementById('quick-add-button');
+            if (!dropdown || !button) return;
+            if (dropdown.contains(event.target) || button.contains(event.target)) return;
+            setShowQuickAddDropdown(false);
+        };
+
+        if (showQuickAddDropdown) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showQuickAddDropdown]);
 
     const fetchShoppingList = async () => {
     try {
@@ -40,6 +104,26 @@ const ShoppingList = () => {
     } finally {
         setLoading(false);
     }
+};
+
+const handleQuickAdd = async (item) => {
+  try {
+
+    const response = await api.post('/shopping', item);
+
+    const newItem = response.data.data.item;
+
+    const updatedItems = [...items, newItem];
+
+    setItems(updatedItems);
+
+    organizeByCategory(updatedItems);
+
+    toast.success(`${item.ingredient_name} added`);
+
+  } catch (error) {
+    toast.error('Failed to add item');
+  }
 };
 
     const organizeByCategory = (itemsList) => {
@@ -92,7 +176,7 @@ const ShoppingList = () => {
             organizeByCategory(updatedItems);
             toast.success('Checked items cleared');
         } catch(error){
-            toast.success('Checked items cleared. Refresh')
+            toast.error('Failed to clear checked items');
         }
         
     };
@@ -149,35 +233,75 @@ const ShoppingList = () => {
                 </div>
 
 
-                {totalCount > 0 && (
-                    <div className="flex flex-wrap gap-3 mb-6">
+                <div className="flex flex-wrap gap-3 mb-6 items-center">
+                    <div className="relative">
                         <button
-                            onClick={() => setShowAddModal(true)}
+                            id="quick-add-button"
+                            type="button"
+                            onClick={() => setShowQuickAddDropdown((prev) => !prev)}
                             className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2.5 rounded-lg font-medium transition-colors"
                         >
                             <Plus className="w-5 h-5" />
-                            Add Item
+                            Quick Add
                         </button>
-                        {checkedCount > 0 && (
-                            <>
-                                <button
-                                    onClick={handleAddToPantry}
-                                    className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2.5 rounded-lg font-medium transition-colors"
-                                >
-                                    <ShoppingCart className="w-5 h-5" />
-                                    Add to Pantry ({checkedCount})
-                                </button>
-                                <button
-                                    onClick={handleClearChecked}
-                                    className="flex items-center gap-2 border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2.5 rounded-lg font-medium transition-colors"
-                                >
-                                    <Trash2 className="w-5 h-5" />
-                                    Clear Checked
-                                </button>
-                            </>
+
+                        {showQuickAddDropdown && (
+                            <div
+                                id="quick-add-dropdown"
+                                className="absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded-xl shadow-lg z-10 overflow-hidden"
+                            >
+                                <div className="px-4 py-3 border-b border-gray-200 bg-gray-50">
+                                    <p className="text-sm font-semibold text-gray-900">Quick add essentials</p>
+                                    <p className="text-xs text-gray-500">Add frequently purchased items in one click.</p>
+                                </div>
+                                <div className="max-h-72 overflow-y-auto">
+                                    {commonItems.map((item) => (
+                                        <button
+                                            key={item.ingredient_name}
+                                            onClick={() => {
+                                                handleQuickAdd(item);
+                                                setShowQuickAddDropdown(false);
+                                            }}
+                                            className="w-full text-left px-4 py-3 hover:bg-emerald-50 transition-colors border-b last:border-b-0"
+                                        >
+                                            <div className="flex items-center justify-between">
+                                                <span className="font-medium text-gray-900">{item.ingredient_name}</span>
+                                                <span className="text-xs text-gray-500">{item.quantity} {item.unit}</span>
+                                            </div>
+                                            <p className="text-xs text-gray-500 mt-1">{item.category}</p>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
                         )}
                     </div>
-                )}
+
+                    {totalCount > 0 && (
+                        <>
+                        <button
+                        onClick={() => setShowAddModal(true)}
+                        className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2.5 rounded-lg font-medium transition-colors"
+                    >
+                        <Plus className="w-5 h-5" />
+                        Add Item
+                    </button>
+                            <button
+                                onClick={handleAddToPantry}
+                                className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2.5 rounded-lg font-medium transition-colors"
+                            >
+                                <ShoppingCart className="w-5 h-5" />
+                                Add to Pantry ({totalCount})
+                            </button>
+                            <button
+                                onClick={handleClearChecked}
+                                className="flex items-center gap-2 border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2.5 rounded-lg font-medium transition-colors"
+                            >
+                                <Trash2 className="w-5 h-5" />
+                                Clear Checked
+                            </button>
+                        </>
+                    )}
+                </div>
 
 
                 {totalCount > 0 ? (
@@ -220,7 +344,6 @@ const ShoppingList = () => {
                 <AddItemModal
                     onClose={() => setShowAddModal(false)}
                     onSuccess={(newItem) => {
-                        // Add to local state
                         const updatedItems = [...items, newItem];
                         setItems(updatedItems);
                         organizeByCategory(updatedItems);
@@ -342,6 +465,7 @@ const AddItemModal = ({ onClose, onSuccess }) => {
                                 <option value="pieces">Pieces</option>
                                 <option value="kg">Kilograms</option>
                                 <option value="g">Grams</option>
+                                <option value="p">Pack</option>
                                 <option value="l">Liters</option>
                                 <option value="ml">Milliliters</option>
                                 <option value="cups">Cups</option>
