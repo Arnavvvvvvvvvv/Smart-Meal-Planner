@@ -3,13 +3,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 import { ChefHat, Mail, Lock } from 'lucide-react';
+import { GoogleLogin } from '@react-oauth/google';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const { login } = useAuth();
+    const [googleLoading, setGoogleLoading] = useState(false);
+    const { login, googleLogin } = useAuth();
     const navigate = useNavigate();
+    const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -27,6 +30,29 @@ const Login = () => {
         setLoading(false);
     };
 
+    const handleGoogleSuccess = async (credentialResponse) => {
+        if (!credentialResponse.credential) {
+            toast.error('Google sign-in was cancelled');
+            return;
+        }
+
+        setGoogleLoading(true);
+        const result = await googleLogin(credentialResponse.credential);
+
+        if (result.success) {
+            toast.success('Welcome back!');
+            navigate('/dashboard');
+        } else {
+            toast.error(result.message);
+        }
+
+        setGoogleLoading(false);
+    };
+
+    const handleGoogleError = () => {
+        toast.error('Google sign-in failed');
+    };
+
     return (
         <div className="min-h-screen bg-linear-to-br from-emerald-50 to-white flex items-center justify-center p-4">
             <div className="w-full max-w-md">
@@ -38,10 +64,8 @@ const Login = () => {
                     <p className="text-gray-600 mt-2">Sign in to continue to Smart AI Meal Planner</p>
                 </div>
 
-                
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
                     <form onSubmit={handleSubmit} className="space-y-5">
-            
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                                 Email
@@ -92,6 +116,31 @@ const Login = () => {
                             {loading ? 'Signing in...' : 'Sign In'}
                         </button>
                     </form>
+
+                    <div className="relative my-4">
+                        <div className="absolute inset-0 flex items-center">
+                            <div className="w-full border-t border-gray-300" />
+                        </div>
+                        <div className="relative flex justify-center text-sm">
+                            <span className="px-2 bg-white text-gray-500">or</span>
+                        </div>
+                    </div>
+
+                    <div className="flex justify-center">
+                        {googleClientId ? (
+                            <GoogleLogin
+                                onSuccess={handleGoogleSuccess}
+                                onError={handleGoogleError}
+                                disabled={loading || googleLoading}
+                                theme="outline"
+                                size="large"
+                                text="continue_with"
+                                useOneTap={false}
+                            />
+                        ) : (
+                            <div className="text-sm text-gray-500">Google login is not configured yet.</div>
+                        )}
+                    </div>
 
                     <p className="text-center text-sm text-gray-600 mt-6">
                         Don't have an account?{' '}
