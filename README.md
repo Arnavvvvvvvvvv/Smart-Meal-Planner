@@ -52,7 +52,7 @@ An AI-powered meal planning and pantry management platform that helps users gene
 - Node.js
 - Express.js
 - PostgreSQL
-- JWT Authentication
+- JWT + Google OAuth Authentication
 
 ### AI Integration
 - Google Gemini API
