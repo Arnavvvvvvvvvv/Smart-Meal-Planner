@@ -117,6 +117,7 @@ const RecipeGenerator = () => {
         if (!generatedRecipe) return;
 
         setSaving(true);
+        const toastId = toast.loading("Saving recipe...");
 
     try {
         await api.post('/recipe', {
@@ -133,12 +134,12 @@ const RecipeGenerator = () => {
             nutrition: generatedRecipe.nutrition
         });
 
-        toast.success('Recipe saved to your collection!');
+        toast.success('Recipe saved to your collection!', {id: toastId});
         setGeneratedRecipe(null)
 
         } catch (error) {
         toast.error(
-            'Failed to save recipe'
+            'Unable to save recipe. Please try again.', {id: toastId}
         );
         } finally {
         setSaving(false);
