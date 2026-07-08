@@ -64,6 +64,116 @@ An AI-powered meal planning and pantry management platform that helps users gene
 
 ---
 
+# 🏗️ System Architecture
+
+```text
+                    User
+                     |
+                     |
+              React Frontend
+              (Vercel)
+                     |
+                     |
+              Express Backend
+              (Railway)
+                     |
+        ---------------------------
+        |                         |
+ PostgreSQL Database        Gemini AI API
+     (Neon)              Recipe Generation
+```
+
+---
+
+# 🗄️ Database Schema
+
+```mermaid
+erDiagram
+
+    USERS {
+        UUID id PK
+        VARCHAR email
+        VARCHAR name
+        VARCHAR password_hash
+        VARCHAR google_id
+    }
+
+    USER_PREFERENCES {
+        UUID id PK
+        UUID user_id FK
+        TEXT dietary_restrictions
+        TEXT allergies
+        TEXT preferred_cuisines
+    }
+
+    PANTRY_ITEMS {
+        UUID id PK
+        UUID user_id FK
+        VARCHAR name
+        DECIMAL quantity
+        VARCHAR category
+        DATE expiry_date
+    }
+
+    RECIPES {
+        UUID id PK
+        UUID user_id FK
+        VARCHAR name
+        VARCHAR cuisine_type
+        JSONB instructions
+        TEXT dietary_tags
+    }
+
+    RECIPE_INGREDIENTS {
+        UUID id PK
+        UUID recipe_id FK
+        VARCHAR ingredient_name
+        DECIMAL quantity
+    }
+
+    RECIPE_NUTRITION {
+        UUID id PK
+        UUID recipe_id FK
+        INT calories
+        DECIMAL protein
+        DECIMAL carbs
+        DECIMAL fats
+    }
+
+    MEAL_PLANS {
+        UUID id PK
+        UUID user_id FK
+        UUID recipe_id FK
+        DATE meal_date
+        VARCHAR meal_type
+    }
+
+    SHOPPING_LISTS {
+        UUID id PK
+        UUID user_id FK
+        VARCHAR ingredient_name
+        BOOLEAN is_checked
+    }
+
+
+    USERS ||--|| USER_PREFERENCES : has
+
+    USERS ||--o{ PANTRY_ITEMS : owns
+
+    USERS ||--o{ RECIPES : creates
+
+    RECIPES ||--o{ RECIPE_INGREDIENTS : contains
+
+    RECIPES ||--|| RECIPE_NUTRITION : has
+
+    USERS ||--o{ MEAL_PLANS : creates
+
+    RECIPES ||--o{ MEAL_PLANS : scheduled_in
+
+    USERS ||--o{ SHOPPING_LISTS : manages
+```
+---
+
 ## 📂 Project Structure
 
 ```text
