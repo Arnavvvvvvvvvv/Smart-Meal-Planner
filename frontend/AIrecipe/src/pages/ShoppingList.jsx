@@ -233,22 +233,22 @@ const handleQuickAdd = async (item) => {
                 </div>
 
 
-                <div className="mb-6 flex flex-wrap items-start gap-3 sm:items-center">
-                    <div className="relative">
+                <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+                    <div className="relative w-full sm:w-auto">
                         <button
                             id="quick-add-button"
                             type="button"
                             onClick={() => setShowQuickAddDropdown((prev) => !prev)}
-                            className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2.5 rounded-lg font-medium transition-colors"
+                            className="flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-2.5 font-medium text-white transition-colors hover:bg-emerald-600 sm:w-auto"
                         >
-                            <Plus className="w-5 h-5" />
+                            <Plus className="h-5 w-5" />
                             Quick Add
                         </button>
 
                         {showQuickAddDropdown && (
                             <div
                                 id="quick-add-dropdown"
-                                className="absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded-xl shadow-lg z-10 overflow-hidden"
+                                className="left-0 right-0 z-10 mt-2 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg sm:absolute sm:right-0 sm:left-auto sm:w-80"
                             >
                                 <div className="px-4 py-3 border-b border-gray-200 bg-gray-50">
                                     <p className="text-sm font-semibold text-gray-900">Quick add essentials</p>
@@ -328,13 +328,22 @@ const handleQuickAdd = async (item) => {
                     <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
                         <ShoppingCart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                         <p className="text-gray-500 mb-4">Your shopping list is empty</p>
-                        <button
-                            onClick={() => setShowAddModal(true)}
-                            className="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2.5 rounded-lg font-medium transition-colors"
-                        >
-                            <Plus className="w-5 h-5" />
-                            Add First Item
-                        </button>
+                        <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
+                            <button
+                                onClick={() => setShowQuickAddDropdown((prev) => !prev)}
+                                className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-500 px-6 py-2.5 font-medium text-white transition-colors hover:bg-emerald-600"
+                            >
+                                <Plus className="h-5 w-5" />
+                                Quick Add
+                            </button>
+                            <button
+                                onClick={() => setShowAddModal(true)}
+                                className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-500 px-6 py-2.5 font-medium text-white transition-colors hover:bg-emerald-600"
+                            >
+                                <Plus className="h-5 w-5" />
+                                Add First Item
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>
