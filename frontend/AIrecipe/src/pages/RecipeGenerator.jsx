@@ -152,12 +152,12 @@ const RecipeGenerator = () => {
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Header */}
-                <div className="text-center mb-8">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-linear-to-br from-emerald-500 to-emerald-600 rounded-2xl mb-4">
-                        <Sparkles className="w-8 h-8 text-white" />
+                <div className="mb-8 text-center">
+                    <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-br from-emerald-500 to-emerald-600 sm:h-16 sm:w-16">
+                        <Sparkles className="h-7 w-7 text-white sm:h-8 sm:w-8" />
                     </div>
-                    <h1 className="text-3xl font-bold text-gray-900">AI Recipe Generator</h1>
-                    <p className="text-gray-600 mt-2">Let AI create delicious recipes based on your ingredients</p>
+                    <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">AI Recipe Generator</h1>
+                    <p className="mt-2 text-sm text-gray-600 sm:text-base">Let AI create delicious recipes based on your ingredients</p>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -181,20 +181,20 @@ const RecipeGenerator = () => {
                             </div>
 
                             {/* Manual Ingredient Input */}
-                            <div className="flex gap-2 mb-4">
+                            <div className="mb-4 flex flex-col gap-2 sm:flex-row">
                                 <input
                                     type="text"
                                     value={inputValue}
                                     onChange={(e) => setInputValue(e.target.value)}
                                     onKeyPress={(e) => e.key === 'Enter' && addIngredient()}
                                     placeholder="Add ingredient (e.g., tomatoes)"
-                                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                                    className="flex-1 rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500"
                                 />
                                 <button
                                     onClick={addIngredient}
-                                    className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors"
+                                    className="rounded-lg bg-emerald-500 px-4 py-2 text-white transition-colors hover:bg-emerald-600"
                                 >
-                                    <Plus className="w-5 h-5" />
+                                    <Plus className="h-5 w-5" />
                                 </button>
                             </div>
 
@@ -278,7 +278,7 @@ const RecipeGenerator = () => {
                             {/* Cooking Time */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">Cooking Time</label>
-                                <div className="grid grid-cols-3 gap-2">
+                                <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
                                     {COOKING_TIMES.map(time => (
                                         <button
                                             key={time.value}
@@ -382,7 +382,7 @@ const RecipeGenerator = () => {
                                 {generatedRecipe.nutrition && (
                                     <div>
                                         <h3 className="font-semibold text-gray-900 mb-3">Nutrition (per serving)</h3>
-                                        <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+                                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
                                             <NutritionBadge label="Calories" value={generatedRecipe.nutrition.calories} unit="kcal" />
                                             <NutritionBadge label="Protein" value={generatedRecipe.nutrition.protein} unit="g" />
                                             <NutritionBadge label="Carbs" value={generatedRecipe.nutrition.carbs} unit="g" />

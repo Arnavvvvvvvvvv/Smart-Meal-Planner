@@ -86,13 +86,13 @@ const MyRecipes = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Header */}
                 <div className="mb-6">
-                    <h1 className="text-3xl font-bold text-gray-900">My Recipes</h1>
-                    <p className="text-gray-600 mt-1">Your collection of saved recipes</p>
+                    <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">My Recipes</h1>
+                    <p className="mt-1 text-sm text-gray-600 sm:text-base">Your collection of saved recipes</p>
                 </div>
 
                 {/* Search and Filters */}
                 <div className="bg-white rounded-lg border border-gray-200 p-4 mb-6">
-                    <div className="flex flex-col lg:flex-row gap-4">
+                    <div className="flex flex-col gap-4 lg:flex-row">
                         {/* Search */}
                         <div className="flex-1 relative">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -109,7 +109,7 @@ const MyRecipes = () => {
                         <select
                             value={selectedCuisine}
                             onChange={(e) => setSelectedCuisine(e.target.value)}
-                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                            className="rounded-lg border border-gray-300 px-4 py-2 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500"
                         >
                             {cuisines.map(cuisine => (
                                 <option key={cuisine} value={cuisine}>
@@ -122,7 +122,7 @@ const MyRecipes = () => {
                         <select
                             value={selectedDifficulty}
                             onChange={(e) => setSelectedDifficulty(e.target.value)}
-                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                            className="rounded-lg border border-gray-300 px-4 py-2 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500"
                         >
                             {difficulties.map(diff => (
                                 <option key={diff} value={diff}>

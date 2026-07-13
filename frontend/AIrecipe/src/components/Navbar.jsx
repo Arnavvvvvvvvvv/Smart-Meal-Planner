@@ -1,113 +1,144 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import {ChevronDown, ChefHat, Home, UtensilsCrossed, Calendar, ShoppingCart, Settings, LogOut } from 'lucide-react';
+import {
+    ChevronDown,
+    ChefHat,
+    Home,
+    UtensilsCrossed,
+    Calendar,
+    ShoppingCart,
+    Settings,
+    LogOut,
+    Menu,
+    X,
+} from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 
 const Navbar = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
-    const [isDropdownOpen, setIsDropdownOpen]= useState(false);
-    const dropdownRef= useRef(null);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const dropdownRef = useRef(null);
 
     const handleLogout = () => {
         logout();
         navigate('/login');
-        setIsDropdownOpen(false)
+        setIsDropdownOpen(false);
+        setIsMobileMenuOpen(false);
     };
 
-    // Close dropdown when clicking outside
+    const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
     useEffect(() => {
-    const handleClickOutside = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-            setIsDropdownOpen(false);
-        }
-    };
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsDropdownOpen(false);
+            }
+        };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {document.removeEventListener('mousedown',handleClickOutside);
-    };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
     }, []);
 
     return (
-        <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-16">
-                    <Link to="/dashboard" className="flex items-center gap-2 text-xl font-semibold text-gray-900">
-                        <ChefHat className="w-7 h-7 text-emerald-500" />
-                        <span>AI Smart Meal Planner</span>
+        <nav className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="flex h-16 items-center justify-between">
+                    <Link to="/dashboard" className="flex items-center gap-2 text-base font-semibold text-gray-900 sm:text-lg">
+                        <ChefHat className="h-6 w-6 text-emerald-500 sm:h-7 sm:w-7" />
+                        <span className="truncate">AI Smart Meal Planner</span>
                     </Link>
 
-                    <div className="hidden md:flex items-center gap-1">
-                        <NavLink to="/dashboard" icon={<Home className="w-4 h-4" />} label="Dashboard" />
-                        <NavLink to="/pantry" icon={<UtensilsCrossed className="w-4 h-4" />} label="Pantry" />
-                        <NavLink to="/generate" icon={<ChefHat className="w-4 h-4" />} label="Generate" />
-                        <NavLink to="/recipes" icon={<UtensilsCrossed className="w-4 h-4" />} label="Recipes" />
-                        <NavLink to="/meal-plan" icon={<Calendar className="w-4 h-4" />} label="Meal Plan" />
-                        <NavLink to="/shopping-list" icon={<ShoppingCart className="w-4 h-4" />} label="Shopping" />
+                    <div className="hidden items-center gap-1 md:flex">
+                        <NavLink to="/dashboard" icon={<Home className="h-4 w-4" />} label="Dashboard" />
+                        <NavLink to="/pantry" icon={<UtensilsCrossed className="h-4 w-4" />} label="Pantry" />
+                        <NavLink to="/generate" icon={<ChefHat className="h-4 w-4" />} label="Generate" />
+                        <NavLink to="/recipes" icon={<UtensilsCrossed className="h-4 w-4" />} label="Recipes" />
+                        <NavLink to="/meal-plan" icon={<Calendar className="h-4 w-4" />} label="Meal Plan" />
+                        <NavLink to="/shopping-list" icon={<ShoppingCart className="h-4 w-4" />} label="Shopping" />
                     </div>
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 sm:gap-3">
                         <Link
                             to="/settings"
-                            className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="hidden rounded-lg p-2 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900 sm:flex"
                         >
-                            <Settings className="w-5 h-5" />
+                            <Settings className="h-5 w-5" />
                         </Link>
                         <div className="relative" ref={dropdownRef}>
-                    <button
-                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                        className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:text-gray-900"
-                    >
-                        <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-white font-medium">
-                        {user?.name?.charAt(0).toUpperCase() || 'U'}
-                        </div>
+                            <button
+                                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                className="flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-gray-700 transition-colors hover:text-gray-900 sm:px-3"
+                            >
+                                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500 font-medium text-white">
+                                    {user?.name?.charAt(0).toUpperCase() || 'U'}
+                                </div>
+                                <span className="hidden font-medium sm:inline">{user?.name || 'User'}</span>
+                                <ChevronDown className={`h-4 w-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                            </button>
 
-                        <span className="hidden sm:inline font-medium">{user?.name || 'User'}</span>
+                            {isDropdownOpen && (
+                                <div className="absolute right-0 mt-2 w-64 rounded-lg border border-gray-200 bg-white shadow-lg z-50">
+                                    <div className="border-b border-gray-200 px-4 py-3">
+                                        <div className="flex items-center gap-3">
+                                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500 font-medium text-white">
+                                                {user?.name?.charAt(0).toUpperCase() || 'U'}
+                                            </div>
+                                            <div className="min-w-0 flex-1">
+                                                <p className="truncate text-sm font-semibold text-gray-900">{user?.name || 'User'}</p>
+                                                <p className="truncate text-xs text-gray-500">{user?.email || 'user@example.com'}</p>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                        <ChevronDown className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
-                    </button>
-
-                    {isDropdownOpen && (
-                        <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
-      
-                        <div className="px-4 py-3 border-b border-gray-200">
-                            <div className="flex items-center gap-3">
-          
-                            <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center text-white font-medium">
-                                {user?.name?.charAt(0).toUpperCase() || 'U'}
-                            </div>
-
-                            <div className="flex-1 min-w-0">
-                                <p className="text-sm font-semibold text-gray-900 truncate">{user?.name || 'User'}</p>
-                                <p className="text-xs text-gray-500 truncate">{user?.email || 'user@example.com'}</p>
-                            </div>
-
-                            </div>
+                                    <button
+                                        onClick={handleLogout}
+                                        className="flex w-full items-center gap-3 px-4 py-2 text-sm text-red-600 transition-colors hover:bg-red-50"
+                                    >
+                                        <LogOut className="h-4 w-4" />
+                                        <span>Logout</span>
+                                    </button>
+                                </div>
+                            )}
                         </div>
 
                         <button
-                            onClick={handleLogout}
-                            className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+                            className="rounded-lg p-2 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900 md:hidden"
+                            aria-label="Toggle navigation menu"
                         >
-                            <LogOut className="w-4 h-4" />
-                            <span>Logout</span>
+                            {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
                         </button>
-
-                        </div>
-                    )}
-                    </div>
                     </div>
                 </div>
+
+                {isMobileMenuOpen && (
+                    <div className="border-t border-gray-200 py-3 md:hidden">
+                        <div className="flex flex-col gap-1">
+                            <NavLink to="/dashboard" icon={<Home className="h-4 w-4" />} label="Dashboard" onClick={closeMobileMenu} />
+                            <NavLink to="/pantry" icon={<UtensilsCrossed className="h-4 w-4" />} label="Pantry" onClick={closeMobileMenu} />
+                            <NavLink to="/generate" icon={<ChefHat className="h-4 w-4" />} label="Generate" onClick={closeMobileMenu} />
+                            <NavLink to="/recipes" icon={<UtensilsCrossed className="h-4 w-4" />} label="Recipes" onClick={closeMobileMenu} />
+                            <NavLink to="/meal-plan" icon={<Calendar className="h-4 w-4" />} label="Meal Plan" onClick={closeMobileMenu} />
+                            <NavLink to="/shopping-list" icon={<ShoppingCart className="h-4 w-4" />} label="Shopping" onClick={closeMobileMenu} />
+                            <NavLink to="/settings" icon={<Settings className="h-4 w-4" />} label="Settings" onClick={closeMobileMenu} />
+                        </div>
+                    </div>
+                )}
             </div>
         </nav>
     );
 };
 
-const NavLink = ({ to, icon, label }) => {
+const NavLink = ({ to, icon, label, onClick }) => {
     return (
         <Link
             to={to}
-            className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+            onClick={onClick}
+            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-emerald-50 hover:text-emerald-600"
         >
             {icon}
             <span>{label}</span>

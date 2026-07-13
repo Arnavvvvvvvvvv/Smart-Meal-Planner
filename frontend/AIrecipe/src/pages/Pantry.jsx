@@ -94,16 +94,16 @@ const Pantry = () => {
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Header */}
-                <div className="flex items-center justify-between mb-6">
+                <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-900">Pantry</h1>
-                        <p className="text-gray-600 mt-1">Manage your ingredients and track expiry dates</p>
+                        <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">Pantry</h1>
+                        <p className="mt-1 text-sm text-gray-600 sm:text-base">Manage your ingredients and track expiry dates</p>
                     </div>
                     <button
                         onClick={() => setShowAddModal(true)}
-                        className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2.5 rounded-lg font-medium transition-colors"
+                        className="flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-2.5 font-medium text-white transition-colors hover:bg-emerald-600 sm:w-auto"
                     >
-                        <Plus className="w-5 h-5" />
+                        <Plus className="h-5 w-5" />
                         Add Item
                     </button>
                 </div>
@@ -301,7 +301,7 @@ const AddItemModal = ({ onClose, onSuccess }) => {
                         />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
                             <input

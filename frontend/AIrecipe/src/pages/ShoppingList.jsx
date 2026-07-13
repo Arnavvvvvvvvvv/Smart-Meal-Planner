@@ -233,7 +233,7 @@ const handleQuickAdd = async (item) => {
                 </div>
 
 
-                <div className="flex flex-wrap gap-3 mb-6 items-center">
+                <div className="mb-6 flex flex-wrap items-start gap-3 sm:items-center">
                     <div className="relative">
                         <button
                             id="quick-add-button"

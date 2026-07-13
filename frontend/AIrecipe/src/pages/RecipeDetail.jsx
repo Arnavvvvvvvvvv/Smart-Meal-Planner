@@ -93,19 +93,19 @@ const RecipeDetail = () => {
                 </Link>
 
                 {/* Recipe Header */}
-                <div className="bg-white rounded-xl border border-gray-200 p-8 mb-6">
-                    <div className="flex items-start justify-between mb-4">
+                <div className="mb-6 rounded-xl border border-gray-200 bg-white p-6 sm:p-8">
+                    <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                         <div className="flex-1">
-                            <h1 className="text-3xl font-bold text-gray-900 mb-2">{recipe.name}</h1>
+                            <h1 className="mb-2 text-2xl font-bold text-gray-900 sm:text-3xl">{recipe.name}</h1>
                             {recipe.description && (
-                                <p className="text-gray-600 text-lg">{recipe.description}</p>
+                                <p className="text-base text-gray-600 sm:text-lg">{recipe.description}</p>
                             )}
                         </div>
                         <button
                             onClick={handleDelete}
-                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                            className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-600"
                         >
-                            <Trash2 className="w-5 h-5" />
+                            <Trash2 className="h-5 w-5" />
                         </button>
                     </div>
 
@@ -153,7 +153,7 @@ const RecipeDetail = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* Ingredients Section */}
                     <div className="lg:col-span-1">
-                        <div className="bg-white rounded-xl border border-gray-200 p-6 sticky top-24">
+                        <div className="sticky top-24 rounded-xl border border-gray-200 bg-white p-6">
                             <div className="flex items-center justify-between mb-4">
                                 <h2 className="text-xl font-semibold text-gray-900">Ingredients</h2>
                                 <div className="flex items-center gap-2">
@@ -164,26 +164,26 @@ const RecipeDetail = () => {
 
                             {/* Servings Adjuster */}
                             <div className="mb-6">
-                                <div className="flex items-center gap-3">
+                                <div className="flex flex-wrap items-center gap-3">
                                     <button
                                         onClick={() => setServings(Math.max(1, servings - 1))}
-                                        className="w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-lg font-medium transition-colors"
+                                        className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 font-medium transition-colors hover:bg-gray-200"
                                     >
                                         −
                                     </button>
-                                    <span className="text-lg font-semibold text-gray-900 w-12 text-center">
+                                    <span className="w-12 text-center text-lg font-semibold text-gray-900">
                                         {servings}
                                     </span>
                                     <button
                                         onClick={() => setServings(servings + 1)}
-                                        className="w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-lg font-medium transition-colors"
+                                        className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 font-medium transition-colors hover:bg-gray-200"
                                     >
                                         +
                                     </button>
                                     {servings !== originalServings && (
                                         <button
                                             onClick={() => setServings(originalServings)}
-                                            className="text-sm text-emerald-600 hover:text-emerald-700 font-medium"
+                                            className="text-sm font-medium text-emerald-600 hover:text-emerald-700"
                                         >
                                             Reset
                                         </button>
@@ -238,7 +238,7 @@ const RecipeDetail = () => {
                         {recipe.nutrition && (
                             <div className="bg-white rounded-xl border border-gray-200 p-6">
                                 <h2 className="text-xl font-semibold text-gray-900 mb-4">Nutrition (per serving)</h2>
-                                <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+                                <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
                                     <NutritionCard label="Calories" value={recipe.nutrition.calories} unit="kcal" />
                                     <NutritionCard label="Protein" value={recipe.nutrition.protein} unit="g" />
                                     <NutritionCard label="Carbs" value={recipe.nutrition.carbs} unit="g" />

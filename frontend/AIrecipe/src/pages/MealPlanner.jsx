@@ -104,29 +104,29 @@ const MealPlanner = () => {
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Header */}
-                <div className="flex items-center justify-between mb-6">
+                <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-900">Meal Planner</h1>
-                        <p className="text-gray-600 mt-1">Plan your weekly meals</p>
+                        <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">Meal Planner</h1>
+                        <p className="mt-1 text-sm text-gray-600 sm:text-base">Plan your weekly meals</p>
                     </div>
 
                     {/* Week Navigation */}
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                         <button
                             onClick={() => setWeekStart(addDays(weekStart, -7))}
-                            className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition-colors"
+                            className="rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 sm:px-4"
                         >
                             Previous Week
                         </button>
                         <button
                             onClick={() => setWeekStart(startOfWeek(new Date()))}
-                            className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg font-medium transition-colors"
+                            className="rounded-lg bg-emerald-500 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-600 sm:px-4"
                         >
                             This Week
                         </button>
                         <button
                             onClick={() => setWeekStart(addDays(weekStart, 7))}
-                            className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition-colors"
+                            className="rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 sm:px-4"
                         >
                             Next Week
                         </button>
@@ -143,69 +143,71 @@ const MealPlanner = () => {
                 </div>
 
                 {/* Calendar Grid */}
-                <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-                    {/* Header Row */}
-                    <div className="grid grid-cols-8 border-b border-gray-200 bg-gray-50">
-                        <div className="p-4 font-semibold text-gray-700 border-r border-gray-200">
-                            Meal
-                        </div>
-                        {DAYS_OF_WEEK.map((day, index) => (
-                            <div key={day} className="p-4 text-center border-r border-gray-200 last:border-r-0">
-                                <div className="font-semibold text-gray-900">{day}</div>
-                                <div className="text-sm text-gray-500">
-                                    {format(addDays(weekStart, index), 'MMM d')}
+                <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white">
+                    <div className="min-w-[760px]">
+                        {/* Header Row */}
+                        <div className="grid grid-cols-[90px_repeat(7,minmax(120px,1fr))] border-b border-gray-200 bg-gray-50">
+                            <div className="border-r border-gray-200 p-4 font-semibold text-gray-700">
+                                Meal
+                            </div>
+                            {DAYS_OF_WEEK.map((day, index) => (
+                                <div key={day} className="border-r border-gray-200 p-4 text-center last:border-r-0">
+                                    <div className="font-semibold text-gray-900">{day}</div>
+                                    <div className="text-sm text-gray-500">
+                                        {format(addDays(weekStart, index), 'MMM d')}
+                                    </div>
                                 </div>
+                            ))}
+                        </div>
+
+                        {/* Meal Rows */}
+                        {MEAL_TYPES.map(mealType => (
+                            <div key={mealType} className="grid grid-cols-[90px_repeat(7,minmax(120px,1fr))] border-b border-gray-200 last:border-b-0">
+                                <div className="border-r border-gray-200 bg-gray-50 p-4 font-medium capitalize text-gray-700">
+                                    {mealType}
+                                </div>
+                                {DAYS_OF_WEEK.map((_, dayIndex) => {
+                                    const date = format(addDays(weekStart, dayIndex), 'yyyy-MM-dd');
+                                    const dayMeals = getDayMeals(dayIndex);
+                                    const meal = dayMeals[mealType];
+
+                                    return (
+                                        <div
+                                            key={dayIndex}
+                                            className="min-h-[96px] border-r border-gray-200 p-3 transition-colors last:border-r-0 hover:bg-gray-50"
+                                        >
+                                            {meal ? (
+                                                <div className="group relative">
+                                                    <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3">
+                                                        <p className="line-clamp-2 text-sm font-medium text-emerald-900">
+                                                            {meal.recipe_name}
+                                                        </p>
+                                                        <button
+                                                            onClick={() => handleRemoveMeal(meal.id)}
+                                                            className="absolute right-1 top-1 rounded bg-white p-1 text-gray-400 opacity-0 transition-opacity hover:bg-red-50 hover:text-red-600 group-hover:opacity-100"
+                                                        >
+                                                            <X className="h-4 w-4" />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <button
+                                                    onClick={() => handleAddMeal(date, mealType)}
+                                                    className="flex h-full w-full items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-emerald-50 hover:text-emerald-600"
+                                                >
+                                                    <Plus className="h-6 w-6" />
+                                                </button>
+                                            )}
+                                        </div>
+                                    );
+                                })}
                             </div>
                         ))}
                     </div>
-
-                    {/* Meal Rows */}
-                    {MEAL_TYPES.map(mealType => (
-                        <div key={mealType} className="grid grid-cols-8 border-b border-gray-200 last:border-b-0">
-                            <div className="p-4 font-medium text-gray-700 capitalize border-r border-gray-200 bg-gray-50">
-                                {mealType}
-                            </div>
-                            {DAYS_OF_WEEK.map((_, dayIndex) => {
-                                const date = format(addDays(weekStart, dayIndex), 'yyyy-MM-dd');
-                                const dayMeals = getDayMeals(dayIndex);
-                                const meal = dayMeals[mealType];
-
-                                return (
-                                    <div
-                                        key={dayIndex}
-                                        className="p-3 border-r border-gray-200 last:border-r-0 min-h-25 hover:bg-gray-50 transition-colors"
-                                    >
-                                        {meal ? (
-                                            <div className="relative group">
-                                                <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3">
-                                                    <p className="text-sm font-medium text-emerald-900 line-clamp-2">
-                                                        {meal.recipe_name}
-                                                    </p>
-                                                    <button
-                                                        onClick={() => handleRemoveMeal(meal.id)}
-                                                        className="absolute top-1 right-1 p-1 bg-white rounded hover:bg-red-50 text-gray-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity"
-                                                    >
-                                                        <X className="w-4 h-4" />
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <button
-                                                onClick={() => handleAddMeal(date, mealType)}
-                                                className="w-full h-full flex items-center justify-center text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors group"
-                                            >
-                                                <Plus className="w-6 h-6" />
-                                            </button>
-                                        )}
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    ))}
                 </div>
 
                 {/* Stats */}
-                <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
                     <div className="bg-white rounded-lg border border-gray-200 p-4">
                         <p className="text-sm text-gray-600">Meals Planned</p>
                         <p className="text-2xl font-bold text-gray-900">
