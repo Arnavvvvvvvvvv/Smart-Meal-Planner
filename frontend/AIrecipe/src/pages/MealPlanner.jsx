@@ -144,7 +144,7 @@ const MealPlanner = () => {
 
                 {/* Calendar Grid */}
                 <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white">
-                    <div className="min-w-[760px]">
+                    <div className="min-w-190">
                         {/* Header Row */}
                         <div className="grid grid-cols-[90px_repeat(7,minmax(120px,1fr))] border-b border-gray-200 bg-gray-50">
                             <div className="border-r border-gray-200 p-4 font-semibold text-gray-700">
@@ -174,7 +174,7 @@ const MealPlanner = () => {
                                     return (
                                         <div
                                             key={dayIndex}
-                                            className="min-h-[96px] border-r border-gray-200 p-3 transition-colors last:border-r-0 hover:bg-gray-50"
+                                            className="min-h-24 border-r border-gray-200 p-3 transition-colors last:border-r-0 hover:bg-gray-50"
                                         >
                                             {meal ? (
                                                 <div className="group relative">
