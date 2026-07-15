@@ -92,33 +92,33 @@ An AI-powered meal planning and pantry management platform that helps users gene
           │ Select ingredients, cuisine,
           │ dietary preferences & servings
           ▼
-   React Frontend (Vercel)
+    React Frontend (Vercel)
           │
           │ POST /api/recipes/generate
           ▼
- Express Backend (Railway)
+    Express Backend (Azure)
           │
           │ Validate request
           │ Build AI prompt
           ▼
-     Google Gemini API
+    Google Gemini API
           │
           │ Generate recipe in JSON format
           ▼
- Express Backend
+    Express Backend
           │
           │ Parse & validate response
           │ Store recipe in PostgreSQL
           ▼
- PostgreSQL Database (Neon)
+    PostgreSQL Database (Neon)
           │
           ▼
- React Frontend
+    React Frontend
           │
           ▼
  User receives the generated recipe with
- ingredients, instructions, nutrition, and
- cooking details
+ ingredients, instructions, nutrition,
+ and cooking details
 ```
 
 ---
