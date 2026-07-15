@@ -59,7 +59,7 @@ An AI-powered meal planning and pantry management platform that helps users gene
 
 ### Deployment
 - Vercel (Frontend)
-- Railway (Backend)
+- Microsoft Azure Service (Backend)
 - Neon PostgreSQL (Database)
 
 ---
