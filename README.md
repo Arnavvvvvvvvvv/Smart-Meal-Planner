@@ -174,6 +174,31 @@ erDiagram
 ```
 ---
 
+User
+ │
+ │ Select Ingredients
+ ▼
+React Frontend
+ │
+ │ POST /generate-recipe
+ ▼
+Express Backend
+ │
+ │ Prompt Engineering
+ ▼
+Gemini API
+ │
+ │ JSON Recipe
+ ▼
+Backend Validation
+ │
+ │ Save Recipe
+ ▼
+PostgreSQL
+ │
+ ▼
+Frontend Displays Recipe
+
 ## 📂 Project Structure
 
 ```text
@@ -276,4 +301,16 @@ Backend API: https://smart-meal-planner-production-25be.up.railway.app/
 
 **Arnav Jain**
 
-Built using React, Node.js, Express, PostgreSQL, and Google Gemini AI.
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react)
+
+![Node](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js)
+
+![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express)
+
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql)
+
+![Gemini](https://img.shields.io/badge/Google_Gemini-AI-blue?style=for-the-badge)
+
+![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge)
+
+![Tailwind](https://img.shields.io/badge/Tailwind-06B6D4?style=for-the-badge&logo=tailwindcss)
