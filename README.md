@@ -70,8 +70,7 @@ An AI-powered meal planning and pantry management platform that helps users gene
                     User
                      |
                      |
-              React Frontend
-              (Vercel)
+              React Frontend (Vercel)
                      |
                      |
               REST API Requests
@@ -82,7 +81,7 @@ An AI-powered meal planning and pantry management platform that helps users gene
         ---------------------------
         |                         |
  PostgreSQL Database        Gemini AI API
-     (Neon)              Recipe Generation
+     (Neon)                Recipe Generation
 ```
 
 ## 🤖 AI Recipe Generation Flow
