@@ -22,7 +22,7 @@ An AI-powered meal planning and pantry management platform that helps users gene
 - Weekly meal planning
 - Breakfast, lunch, and dinner scheduling
 - Upcoming meals dashboard
-- Meal calendar view
+- Calendar-based meal organization
 
 ### 🛒 Smart Shopping List
 - Create shopping lists 
@@ -74,13 +74,52 @@ An AI-powered meal planning and pantry management platform that helps users gene
               (Vercel)
                      |
                      |
-              Express Backend
-              (Railway)
+              REST API Requests
+                     |
+                     |
+              Express Backend (Azure)
                      |
         ---------------------------
         |                         |
  PostgreSQL Database        Gemini AI API
      (Neon)              Recipe Generation
+```
+
+## 🤖 AI Recipe Generation Flow
+
+```text
+        User
+          │
+          │ Select ingredients, cuisine,
+          │ dietary preferences & servings
+          ▼
+   React Frontend (Vercel)
+          │
+          │ POST /api/recipes/generate
+          ▼
+ Express Backend (Railway)
+          │
+          │ Validate request
+          │ Build AI prompt
+          ▼
+     Google Gemini API
+          │
+          │ Generate recipe in JSON format
+          ▼
+ Express Backend
+          │
+          │ Parse & validate response
+          │ Store recipe in PostgreSQL
+          ▼
+ PostgreSQL Database (Neon)
+          │
+          ▼
+ React Frontend
+          │
+          ▼
+ User receives the generated recipe with
+ ingredients, instructions, nutrition, and
+ cooking details
 ```
 
 ---
@@ -172,32 +211,7 @@ erDiagram
 
     USERS ||--o{ SHOPPING_LISTS : manages
 ```
----
 
-User
- │
- │ Select Ingredients
- ▼
-React Frontend
- │
- │ POST /generate-recipe
- ▼
-Express Backend
- │
- │ Prompt Engineering
- ▼
-Gemini API
- │
- │ JSON Recipe
- ▼
-Backend Validation
- │
- │ Save Recipe
- ▼
-PostgreSQL
- │
- ▼
-Frontend Displays Recipe
 
 ## 📂 Project Structure
 
@@ -273,7 +287,7 @@ npm run dev
 
 Frontend: [smart-meal-planner-two.vercel.app](https://smart-meal-planner-two.vercel.app/)
 
-Backend API: https://smart-meal-planner-production-25be.up.railway.app/
+Backend API: [https://ai-meal-planner-c6bcdwdracddfkd4.centralindia-01.azurewebsites.net/](https://ai-meal-planner-c6bcdwdracddfkd4.centralindia-01.azurewebsites.net/)
 
 ---
 
@@ -292,8 +306,10 @@ Backend API: https://smart-meal-planner-production-25be.up.railway.app/
 
 - Nutrition analytics dashboard
 - Email reminders for expiring pantry items
+- AI meal recommendations based on previous history
 - Grocery price comparison
 - Meal plan sharing and collaboration
+- Mobile application using React Native
 
 ---
 
@@ -301,16 +317,4 @@ Backend API: https://smart-meal-planner-production-25be.up.railway.app/
 
 **Arnav Jain**
 
-![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react)
-
-![Node](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js)
-
-![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express)
-
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql)
-
-![Gemini](https://img.shields.io/badge/Google_Gemini-AI-blue?style=for-the-badge)
-
-![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge)
-
-![Tailwind](https://img.shields.io/badge/Tailwind-06B6D4?style=for-the-badge&logo=tailwindcss)
+Built using **React.js, Vite, Tailwind CSS, Node.js, Express.js, PostgreSQL, Google Gemini AI, JWT Authentication, Google OAuth, Microsoft Azure App Service, Vercel, and Neon PostgreSQL.**
