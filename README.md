@@ -186,7 +186,7 @@ erDiagram
         VARCHAR meal_type
     }
 
-    SHOPPING_LISTS_ITEMS {
+    SHOPPING_LIST_ITEMS {
         UUID id PK
         UUID user_id FK
         VARCHAR ingredient_name
@@ -208,7 +208,7 @@ erDiagram
 
     RECIPES ||--o{ MEAL_PLANS : scheduled_in
 
-    USERS ||--o{ SHOPPING_LISTS : manages
+    USERS ||--o{ SHOPPING_LIST_ITEMS : manages
 ```
 
 
