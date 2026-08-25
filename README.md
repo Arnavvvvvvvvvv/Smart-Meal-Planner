@@ -186,7 +186,7 @@ erDiagram
         VARCHAR meal_type
     }
 
-    SHOPPING_LISTS {
+    SHOPPING_LISTS_ITEMS {
         UUID id PK
         UUID user_id FK
         VARCHAR ingredient_name
